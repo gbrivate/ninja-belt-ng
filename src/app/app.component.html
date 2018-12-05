@@ -18,24 +18,39 @@
     <h3 class="cinq-text">Desafios - Angular/Java</h3>
     <h4>:: Desafio 1</h4>
     <ol class="c">
-      <li>Angular: Criar uma rota no Angular usando o próprio nome do time, ex. */teamA, ao carregar a rota o
-        componente tem que implementar um serviço que vai chamar um REST feito pelo time de Java.
+      <li>
+        <strong>Angular:</strong> Criar uma rota no usando o próprio nome do time, <strong>ex. */teamA</strong>,
+        ao carregar a rota, o componente tem que implementar um serviço que vai chamar um REST
+        <strong>POST:/team/'teamName'</strong>.
       </li>
       <li>
-        Java: Criar um serviço POST:/team/'teamName' que vai cadastrar o time e os participantes do mesmo, detalhe, um
-        mesmo time não pode ser cadastrado mais de uma vez.
+        <strong>Java:</strong> Criar um serviço <strong>POST:/team/'teamName'</strong> que vai cadastrar o time e os
+        participantes do mesmo, detalhe, um
+        mesmo time com o mesmo nome, não pode ser cadastrado mais de uma vez.
       </li>
       <li>
-        Java: Criar um serviço GET:/team/list que retorne todos os times/partipantes.
+        <strong>Java:</strong> Criar um serviço <strong>GET:/team/list</strong> que retorne todos os times/partipantes.
       </li>
       <li>
-        Angular: Listar os dados do time e do Presenters, aplicando filtros assim evitando que dados de outro time seja
-        mostrado.(Não será considerada a solução que mostrar dados de outros times).
+        <strong>Angular:</strong> Listar os dados via <strong>GET:/team/list</strong> do time e do Presenters, aplicando
+        filtros, assim evitando que dados de outro time seja
+        mostrado.<strong>(Não será considerada a solução que mostrar dados de outros times).</strong>
+      </li>
+    </ol>
+    <h4>:: Desafio 2</h4>
+    <ol class="c">
+      <li>
+        <strong>Angular:</strong> Chamar o REST <strong>POST:/belt/'teamName'</strong> via serviço e listar os <strong>belts</strong>
+        do time,
+        os <strong>belts</strong> terá que ser mostrado num modal e invocado através de um link/button.
+      </li>
+      <li>
+        <strong>Java:</strong> Criar um serviço REST <strong>POST:/belt/'teamName'</strong> que retorne a lista <strong>belts</strong>
+        do time,
+        <strong>(Não será considerado serviço que retorne cinturões de outros times.)</strong>
       </li>
     </ol>
   </div>
-
-
 
 
 </div>
