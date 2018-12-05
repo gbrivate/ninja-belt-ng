@@ -1,32 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-
-import 'rxjs';
-
-import {NinjaGroupService} from './ninja-group.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  title = 'ninha-belt-ng';
 
-  ninjaTeams: any[];
+  isHomePage: boolean;
 
-  constructor(private ninjaGroupService: NinjaGroupService) {
-    this.ninjaTeams = [];
-  }
-
-  ngOnInit(): void {
-    this.ninjaGroupService.retrieveGroups()
-      .subscribe(data => {
-        this.ninjaTeams = data.teams.filter(team => team.isOwner);
-      });
-  }
-
-  private retrieveGroups(): void {
-
+  constructor(private router: Router) {
+    this.router.events.subscribe((event: any) => {
+      if (event.url) {
+        this.isHomePage = event.url === '/';
+      }
+    });
   }
 }

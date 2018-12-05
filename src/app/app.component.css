@@ -1,0 +1,56 @@
+html, body {
+  height: 100%;
+}
+
+html {
+  display: table;
+  width: 100%;
+}
+
+body {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+li {
+  margin-bottom: 1em;
+}
+
+ol.c {
+  list-style-type: upper-roman;
+    color: #615d5d;
+}
+
+.content {
+  max-width: 70%;
+  margin: auto;
+  font-family: Verdana;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.cinq-text {
+  color: #325586
+}
+
+.welcomeTitle {
+  width: 100%;
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cinqDojo {
+  width: 100%;
+  text-align: center;
+  color: #1691c6
+}

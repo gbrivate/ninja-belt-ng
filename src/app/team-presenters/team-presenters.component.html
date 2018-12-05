@@ -1,3 +1,9 @@
-<p>
-  team-presenters works!
-</p>
+<!-- list ninjas teams -->
+<div *ngFor="let team of ninjaTeams" style="border: 1px solid blue"
+     [style.color]="team.isOwner?'red':'black'">
+  Name: {{team.name}}
+  Belts: <span *ngFor="let belt of team.belts">{{belt.color+ " | "}}</span>
+  <div *ngFor="let ninja of team.ninjas">
+    <h3>Ninja: {{ninja.name}}</h3>
+  </div>
+</div>
