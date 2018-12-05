@@ -29,21 +29,3 @@ profiles:
         setValueTemplates:
           image.repository: "{{.DOCKER_REGISTRY}}/gbrivate/ninja-belt-ng"
           image.tag: "{{.DIGEST_HEX}}"
-- name: prod
-  build:
-    tagPolicy:
-      envTemplate:
-        template: "{{.DOCKER_REGISTRY}}/gbrivate/ninja-belt-ng:{{.DIGEST_HEX}}"
-    artifacts:
-    - docker: {
-            dockerfile: DockerfileProd
-          }
-    local: {}
-  deploy:
-    helm:
-      releases:
-      - name: ninja-belt-ng
-        chartPath: charts/ninja-belt-ng
-        setValueTemplates:
-          image.repository: "{{.DOCKER_REGISTRY}}/gbrivate/ninja-belt-ng"
-          image.tag: "{{.DIGEST_HEX}}"
