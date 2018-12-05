@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve  --disable-host-check",
+    "start": "ng serve --host 0.0.0.0 --port 8080 --disable-host-check",
     "build": "ng build",
-    "build_prod": "ng build --prod ",
-    "build_dev": "ng build ",
+    "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
