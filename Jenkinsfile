@@ -6,6 +6,7 @@ pipeline {
     ORG = 'gbrivate'
     APP_NAME = 'ninja-belt-ng'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+    ENV = ${env}
   }
   stages {
     stage('CI Build and push snapshot') {
@@ -46,6 +47,8 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
+          sh "ng build -env=$ENV"
+
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
