@@ -41,3 +41,9 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 12 }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+        env:
+          - name: {{ .Values.env.name }}
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.env.valueFrom.configMapKeyRef.name }}
+                key: {{ .Values.env.valueFrom.configMapKeyRef.key }}
