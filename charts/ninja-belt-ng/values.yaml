@@ -5,8 +5,8 @@ endpoint: "127.0.0.1"
 
 replicaCount: 1
 image:
-  repository: draft
-  tag: dev
+  repository: 10.59.245.117:5000/gbrivate/ninja-belt-ng
+  tag: 0.0.14
   pullPolicy: IfNotPresent
 service:
   name: ninja-belt-ng
