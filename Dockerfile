@@ -5,4 +5,4 @@ WORKDIR /usr/src/app
 COPY . .
 CMD ["npm", "start"]
 
-RUN echo "setting"+${replicas}
+RUN echo "setting"+${AMBIENTE}
