@@ -33,8 +33,5 @@ readinessProbe:
   timeoutSeconds: 1
 terminationGracePeriodSeconds: 10
 env:
-  name: AMBIENTE
-  valueFrom:
-    configMapKeyRef:
-      name: ninjabelt-ng-env
-      key: dev
+  -name: environment
+    value: "dev"
