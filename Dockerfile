@@ -4,5 +4,3 @@ EXPOSE 8080
 WORKDIR /usr/src/app
 COPY . .
 CMD ["npm", "start"]
-
-RUN echo "Setting the env: ${ENV}"
