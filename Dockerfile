@@ -1,10 +1,6 @@
-FROM nginx:alpine
-
+FROM node:9-slim
 ENV PORT 8080
 EXPOSE 8080
-
-COPY nginx.conf /etc/nginx/nginx.conf
-
-CMD ["npm","build"]
-
-COPY dist/* /usr/share/nginx/html
+WORKDIR /usr/src/app
+COPY . .
+CMD ["npm", "start"]
