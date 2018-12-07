@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --disable-host-check",
     "build": "ng build",
-    "build_prod": "ng build --env",
+    "build:prod": "ng build --env=prod",
+    "build:stating": "ng build --env=stating --sourcemap=true ---prod --build-optimizer",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
