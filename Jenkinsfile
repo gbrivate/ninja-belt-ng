@@ -43,7 +43,7 @@ pipeline {
           sh "jx step git credentials"
 
           // so we can retrieve the version in later steps
-          sh "echo \$(jx-release-version) > VERSION"
+          sh "echo dev-\$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
           sh "npm run build:dev"
@@ -67,7 +67,7 @@ pipeline {
               sh "jx step git credentials"
 
               // so we can retrieve the version in later steps
-              sh "echo \$(jx-release-version) > VERSION"
+              sh "echo stag-\$(jx-release-version) > VERSION"
               sh "jx step tag --version \$(cat VERSION)"
               sh "npm install"
               sh "npm run build:stag"
@@ -91,7 +91,7 @@ pipeline {
               sh "jx step git credentials"
 
               // so we can retrieve the version in later steps
-              sh "echo \$(jx-release-version) > VERSION"
+              sh "echo prod-\$(jx-release-version) > VERSION"
               sh "jx step tag --version \$(cat VERSION)"
               sh "npm install"
               sh "npm run build:prod"
@@ -151,7 +151,7 @@ pipeline {
                     sh "jx step helm release"
 
                     // promote through all 'Auto' promotion Environments
-                    sh "jx promote  -env production --timeout 1h --version \$(cat ../../VERSION)"
+                    sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
                   }
                 }
               }
