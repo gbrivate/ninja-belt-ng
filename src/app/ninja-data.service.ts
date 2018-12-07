@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+
+import {environment} from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +14,6 @@ export class NinjaDataService {
   }
 
   retrieveTeams(): any {
-    return this.http.get('/assets/teams.json');
+    return this.http.get('/assets/teams' + environment.api_url);
   }
 }

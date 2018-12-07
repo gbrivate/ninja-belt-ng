@@ -30,9 +30,9 @@ pipeline {
         }
       }
     }
-    stage('Build Release') {
+    stage('Build dev') {
       when {
-        branch 'master'
+        branch 'development'
       }
       steps {
         container('nodejs') {
@@ -46,8 +46,7 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
-          //sh "npm run build -evn  ${env}"
-          // sh "echo ${params.env}"
+          sh "npm run build:dev"
 
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
@@ -55,9 +54,57 @@ pipeline {
         }
       }
     }
-    stage('Promote to Environments') {
+    stage('Build staging/QA') {
+          when {
+            branch 'stating'
+          }
+          steps {
+            container('nodejs') {
+
+              // ensure we're not on a detached head
+              sh "git checkout master"
+              sh "git config --global credential.helper store"
+              sh "jx step git credentials"
+
+              // so we can retrieve the version in later steps
+              sh "echo \$(jx-release-version) > VERSION"
+              sh "jx step tag --version \$(cat VERSION)"
+              sh "npm install"
+              sh "npm run build:stag"
+
+              sh "CI=true DISPLAY=:99 npm test"
+              sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
+              sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+            }
+          }
+        }
+    stage('Build Production') {
+          when {
+            branch 'master'
+          }
+          steps {
+            container('nodejs') {
+
+              // ensure we're not on a detached head
+              sh "git checkout master"
+              sh "git config --global credential.helper store"
+              sh "jx step git credentials"
+
+              // so we can retrieve the version in later steps
+              sh "echo \$(jx-release-version) > VERSION"
+              sh "jx step tag --version \$(cat VERSION)"
+              sh "npm install"
+              sh "npm run build:prod"
+
+              sh "CI=true DISPLAY=:99 npm test"
+              sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
+              sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+            }
+          }
+        }
+    stage('Promote to Environment DEV') {
       when {
-        branch 'master'
+        branch 'development'
       }
       steps {
         container('nodejs') {
@@ -68,11 +115,47 @@ pipeline {
             sh "jx step helm release"
 
             // promote through all 'Auto' promotion Environments
-            sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
+            sh "jx promote -b --env development --timeout 1h --version \$(cat ../../VERSION)"
           }
         }
       }
     }
+    stage('Promote to Environment STAGING/QA') {
+          when {
+            branch 'staging'
+          }
+          steps {
+            container('nodejs') {
+              dir('./charts/ninja-belt-ng') {
+                sh "jx step changelog --version v\$(cat ../../VERSION)"
+
+                // release the helm chart
+                sh "jx step helm release"
+
+                // promote through all 'Auto' promotion Environments
+                sh "jx promote -b -env staging --timeout 1h --version \$(cat ../../VERSION)"
+              }
+            }
+          }
+        }
+        stage('Promote to Environment PROD') {
+              when {
+                branch 'master'
+              }
+              steps {
+                container('nodejs') {
+                  dir('./charts/ninja-belt-ng') {
+                    sh "jx step changelog --version v\$(cat ../../VERSION)"
+
+                    // release the helm chart
+                    sh "jx step helm release"
+
+                    // promote through all 'Auto' promotion Environments
+                    sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
+                  }
+                }
+              }
+            }
   }
   post {
         always {

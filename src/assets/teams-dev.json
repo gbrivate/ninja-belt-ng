@@ -1,14 +1,15 @@
 {
   "teams": [
     {
+      "env": "DEV",
       "isOwner": true,
       "name": "Presenters",
       "ninjas": [
         {
-          "name": "Gabriel Dos Santos"
+          "name": "John shnow"
         },
         {
-          "name": "Romero Ricardo"
+          "name": "Ricardo Ubbriacone"
         }
       ],
       "belts": [

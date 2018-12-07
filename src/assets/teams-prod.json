@@ -1,15 +1,15 @@
 {
   "teams": [
     {
-      "env": "STAGING",
+      "env": "PROD",
       "isOwner": true,
       "name": "Presenters",
       "ninjas": [
         {
-          "name": "Gabriel Santos"
+          "name": "Will smith"
         },
         {
-          "name": "Romero Ricardo"
+          "name": "Cornor drunker"
         }
       ],
       "belts": [
