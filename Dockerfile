@@ -5,4 +5,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 ENV PORT 8080
 EXPOSE 8080
 
-COPY dist/* /usr/share/nginx/html
+ARG dist=dist-${ENVIRONMENT:-dev}
+
+COPY ${dist}/ /usr/share/nginx/html/
+
