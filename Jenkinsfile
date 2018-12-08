@@ -118,7 +118,7 @@ pipeline {
         }
       }
     }
-    stage('Promote to Environments') {
+    stage('Promote to PROD Environments') {
           when {
             branch 'master'
           }
