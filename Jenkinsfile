@@ -117,6 +117,23 @@ pipeline {
           }
         }
       }
+      stage('Promote to Environments prod') {
+            when {
+              branch 'master'
+            }
+            steps {
+              container('nodejs') {
+                dir('./charts/ninja-belt-ng') {
+                  sh "jx step changelog --version v\$(cat ../../VERSION)"
+
+                  // release the helm chart
+                  sh "jx step helm release"
+
+                  // promote through all 'Auto' promotion Environments
+                  sh "jx promote -b --env production --timeout 1h --version \$(cat ../../VERSION)"
+                }
+              }
+            }
     }
   }
   post {
