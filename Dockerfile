@@ -20,6 +20,6 @@ EXPOSE 8080
 
 ARG env=start_${ENVIRONMENT:-local}
 
-CMD ["npm","${env}"]
+CMD ["npm","run","${env}"]
 
 
