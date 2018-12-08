@@ -19,6 +19,12 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
+        env:
+          - name: {{ .Values.env.name }}
+          valueFrom:
+              configMapKeyRef:
+                 name: {{ .Values.env.valueFrom.configMapKeyRef.name }}
+                 key: {{ .Values.env.valueFrom.configMapKeyRef.key }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
