@@ -1,13 +1,25 @@
-FROM nginx:alpine
+FROM node:8
 
-COPY nginx.conf /etc/nginx/nginx.conf
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm install --only=production
+
+# Bundle app source
+COPY . .
 
 ENV PORT 8080
 EXPOSE 8080
 
-RUN mkdir -p /d
+ARG env=${ENVIRONMENT:-local}
 
-ARG dist=dist-${ENVIRONMENT}
+RUN npm run build_${env}
 
-COPY ${dist}* /usr/share/nginx/html/
 
