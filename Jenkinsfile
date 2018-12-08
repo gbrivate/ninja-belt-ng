@@ -21,6 +21,7 @@ pipeline {
         container('nodejs') {
           sh "npm install"
           sh "npm run build:dev"
+          sh "npm run build:stag"
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
