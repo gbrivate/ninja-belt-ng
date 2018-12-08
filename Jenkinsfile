@@ -20,7 +20,6 @@ pipeline {
       steps {
         container('nodejs') {
           sh "npm install"
-          sh "npm run build"
           sh "npm run build:dev"
           sh "npm run build:stag"
           sh "CI=true DISPLAY=:99 npm test"
@@ -114,7 +113,7 @@ pipeline {
             sh "jx step helm release"
 
             // promote through all 'Auto' promotion Environments
-            sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
+            sh "jx promote -b --env staging --timeout 1h --version \$(cat ../../VERSION)"
           }
         }
       }
