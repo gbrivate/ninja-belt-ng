@@ -70,6 +70,7 @@ pipeline {
               sh "echo \$(jx-release-version) > VERSION"
               sh "jx step tag --version \$(cat VERSION)"
               sh "npm install"
+              sh "npm run build:dev"
               sh "npm run build:stag"
               sh "npm run build:prod"
 
