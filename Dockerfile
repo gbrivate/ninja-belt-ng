@@ -7,6 +7,7 @@ EXPOSE 8080
 
 RUN mkdir -p /d
 
+ARG dist=dist-${ENVIRONMENT}
 
 COPY ${dist}* /usr/share/nginx/html/
 
