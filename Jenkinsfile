@@ -57,33 +57,51 @@ pipeline {
       }
     }
     stage('Build Release') {
+      when {
+        branch 'master'
+      }
+      steps {
+        container('nodejs') {
+
+          // ensure we're not on a detached head
+          sh "git checkout master"
+          sh "git config --global credential.helper store"
+          sh "jx step git credentials"
+
+          // so we can retrieve the version in later steps
+          sh "echo \$(jx-release-version) > VERSION"
+          sh "jx step tag --version \$(cat VERSION)"
+          sh "npm install"
+          sh "npm run build:stag"
+          sh "npm run build:prod"
+
+          sh "CI=true DISPLAY=:99 npm test"
+          sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
+          sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+        }
+      }
+    }
+    stage('Promote to DEV-Environment ') {
           when {
-            branch 'master'
+        branch 'development'
           }
           steps {
             container('nodejs') {
+              dir('./charts/ninja-belt-ng') {
+                sh "jx step changelog --version v\$(cat ../../VERSION)"
 
-              // ensure we're not on a detached head
-              sh "git checkout staging"
-              sh "git config --global credential.helper store"
-              sh "jx step git credentials"
+                // release the helm chart
+                sh "jx step helm release"
 
-              // so we can retrieve the version in later steps
-              sh "echo \$(jx-release-version) > VERSION"
-              sh "jx step tag --version \$(cat VERSION)"
-              sh "npm install"
-              sh "npm run build:stag"
-              sh "npm run build:prod"
-
-              sh "CI=true DISPLAY=:99 npm test"
-              sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
-              sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+                // promote through all 'Auto' promotion Environments
+            sh "jx promote -b --env development --timeout 1h --version \$(cat ../../VERSION)"
+              }
             }
           }
-        }
-    stage('Promote to Environment DEV') {
+    }
+    stage('Promote to Environments') {
       when {
-        branch 'development'
+        branch 'master'
       }
       steps {
         container('nodejs') {
@@ -93,31 +111,12 @@ pipeline {
             // release the helm chart
             sh "jx step helm release"
 
-                      // promote through all 'Auto' promotion Environments
-            sh "jx promote -b --env development --timeout 1h --version \$(cat ../../VERSION)"
+            // promote through all 'Auto' promotion Environments
+            sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
           }
         }
       }
     }
-        stage('Promote to Environment PROD') {
-              when {
-                branch 'master'
-              }
-              steps {
-                container('nodejs') {
-                  dir('./charts/ninja-belt-ng') {
-                    sh "jx step changelog --version v\$(cat ../../VERSION)"
-
-                    // release the helm chart
-                    sh "jx step helm release"
-
-                    // promote through all 'Auto' promotion Environments
-                    //sh "jx promote -b  -env production --timeout 1h --version \$(cat ../../VERSION)"
-                    sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
-                  }
-                }
-              }
-            }
   }
   post {
         always {
