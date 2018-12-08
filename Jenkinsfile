@@ -20,6 +20,7 @@ pipeline {
       steps {
         container('nodejs') {
           sh "npm install"
+          sh "npm run build"
           sh "npm run build:dev"
           sh "npm run build:stag"
           sh "CI=true DISPLAY=:99 npm test"
