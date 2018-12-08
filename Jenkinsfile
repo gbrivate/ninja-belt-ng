@@ -20,8 +20,6 @@ pipeline {
       steps {
         container('nodejs') {
           sh "npm install"
-          sh "npm run build:dev"
-          sh "npm run build:stag"
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
@@ -72,7 +70,6 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
-          sh "npm run build:dev"
           sh "npm run build:stag"
           sh "npm run build:prod"
 
@@ -118,24 +115,6 @@ pipeline {
         }
       }
     }
-    stage('Promote to PROD Environments') {
-          when {
-            branch 'master'
-          }
-          steps {
-            container('nodejs') {
-              dir('./charts/ninja-belt-ng') {
-                sh "jx step changelog --version v\$(cat ../../VERSION)"
-
-                // release the helm chart
-                sh "jx step helm release"
-
-                // promote through all 'Auto' promotion Environments
-                sh "jx promote -b --env production --timeout 1h --version \$(cat ../../VERSION)"
-              }
-            }
-          }
-        }
   }
   post {
         always {
