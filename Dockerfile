@@ -5,9 +5,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 ENV PORT 8080
 EXPOSE 8080
 
-ARG dist=dist-${ENVIRONMENT:-local}
+ARG dist=dist-${ENVIRONMENT}
 
 RUN echo ${dist}
 
-COPY ${dist}/ /usr/share/nginx/html/
+COPY ${dist}/ /usr/share/nginx/html/ || echo 'do nothing'
 
