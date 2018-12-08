@@ -46,7 +46,7 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "npm install"
-          sh "npm run build --output-path=dist-dev"
+          sh "npm run build:dev"
 
           sh "CI=true DISPLAY=:99 npm test"
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
