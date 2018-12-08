@@ -7,5 +7,7 @@ EXPOSE 8080
 
 ARG dist=dist-${ENVIRONMENT:dev}
 
+RUN echo ${dist}
+
 COPY ${dist}/ /usr/share/nginx/html/
 
