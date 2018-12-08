@@ -9,8 +9,3 @@ ARG dist=dist-${ENVIRONMENT:-dev}
 
 COPY ${dist}/ /usr/share/nginx/html/
 
-
-RUN 'cd /usr/share/nginx/html
-
-RUN 'ls -ls'
-
