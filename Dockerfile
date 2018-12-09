@@ -22,6 +22,6 @@ ARG env=start_local
 
 RUN echo ${env}
 
-CMD ["sh", "-c", " npm run ${env}"]
+CMD ["npm", "run","${env}"]
 
 
