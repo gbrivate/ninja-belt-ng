@@ -18,9 +18,9 @@ COPY . .
 ENV PORT 8080
 EXPOSE 8080
 
-ENV env=${ENVIRONMENT}
+ENV env=start_${ENVIRONMENT:-local}
 
+CMD ["npm", "start"]
 
-RUN if [ "$env" != "" ] ; npm run star_${env} ; then echo Argument is $env ; fi
 
 
