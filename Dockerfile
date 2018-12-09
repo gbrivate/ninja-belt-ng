@@ -18,7 +18,7 @@ COPY . .
 ENV PORT 8080
 EXPOSE 8080
 
-ARG env=start_${ENVIRONMENT:-local}
+ENV env=start_${ENVIRONMENT:-local}
 
 RUN npm run ${env}
 
