@@ -18,9 +18,7 @@ COPY . .
 ENV PORT 8080
 EXPOSE 8080
 
-ENV env=start_${ENVIRONMENT:-local}
-
-CMD ["npm", "run","$env"]
+CMD ["npm", "run","start_${ENVIRONMENT:-local}"]
 
 
 
