@@ -6,6 +6,10 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD ["npm", "run", "start_${ENVIRONMENT:-local}"]
+ARG environment
+
+ENV environment start_${ENVIRONMENT:-local}
+
+CMD ["npm", "run", "${environment}"]
 
 
