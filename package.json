@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start_local": "ng serve --host 0.0.0.0 --port 8080 --disable-host-check",
-    "start_sta": "ng serve --configuration=staging --host 0.0.0.0 --port 8080 --disable-host-check",
+    "start_stag": "ng serve --configuration=staging --host 0.0.0.0 --port 8080 --disable-host-check",
     "start_dev": "ng serve --configuration=development --host 0.0.0.0 --port 8080 --disable-host-check",
     "start_prod": "ng serve --configuration=production --host 0.0.0.0 --port 8080 --disable-host-check",
     "build": "ng build",
