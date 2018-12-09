@@ -21,6 +21,6 @@ EXPOSE 8080
 ENV env=${ENVIRONMENT}
 
 
-RUN if [ "$env" != "" ] ; npm run star_${env} ; else echo Argument is $env ; fi
+RUN if [ "$env" != "" ] ; npm run star_${env} ; then echo Argument is $env ; fi
 
 
