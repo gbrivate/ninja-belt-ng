@@ -15,13 +15,11 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-ENV PORT 8080
 EXPOSE 8080
 
-ARG env=start_local
+ARG env=start_${ENVIRONMENT:-local}"
 
-RUN echo ${env}
 
-CMD ["npm", "run","${env}"]
+CMD ["npm", "run", "${env}"]
 
 
