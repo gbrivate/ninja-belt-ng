@@ -6,8 +6,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-ARG ambiebte=start_${ENVIRONMENT:-local}
-
-CMD ["npm", "run", "${ambiebte}"]
+CMD ["npm", "run", "start_${ENVIRONMENT:-local}"]
 
 
