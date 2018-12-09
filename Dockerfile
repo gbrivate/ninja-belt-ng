@@ -17,7 +17,7 @@ COPY . .
 
 EXPOSE 8080
 
-ARG env=start_${ENVIRONMENT:-local}"
+ARG env=start_${ENVIRONMENT:-local}
 
 
 CMD ["npm", "run", "${env}"]
