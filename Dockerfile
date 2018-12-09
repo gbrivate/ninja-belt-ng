@@ -20,7 +20,7 @@ EXPOSE 8080
 
 ENV env=start_${ENVIRONMENT:-local}
 
-CMD ["npm", "start"]
+CMD ["npm", "run","$env"]
 
 
 
